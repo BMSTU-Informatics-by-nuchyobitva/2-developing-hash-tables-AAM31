@@ -1,104 +1,63 @@
-[![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-22041afd0340ce965d47ae6ef1cefeee28c7c493a6346c4f15d667ab976d596c.svg)](https://classroom.github.com/a/BX65L5j-)
 # Семинар 2
+Отчёт о проделанной работе:
+- [ ] Скриншот из [симулятора кастомных хэш-функций](https://iswsa.acm.org/mphf/openDSAPerfectHashAnimation/perfectHashAV.html):
+      
+![image](https://github.com/user-attachments/assets/1d46a8f0-1374-43ac-ab82-3d8638d14cac)
 
-Данная работа направлена на изучение структур данных типа Hash Table.
-В рамках данной работы вам предстоит выполнить следующие задания:
-
-- [ ] Освежить память в части хэш-таблиц, поработав с [симулятором заполнения хэш-таблицы](https://www.cs.usfca.edu/~galles/visualization/OpenHash.html)
-- [ ] Поэкспериментировать с хэш-таблицами в [симуляторе кастомных хэш-функций](https://iswsa.acm.org/mphf/openDSAPerfectHashAnimation/perfectHashAV.html). Здесь можно выбрать разные хэш-функции, методы разрешения коллизий и т.д.
-- [ ] Прочитайте [полезную статью](https://habr.com/ru/companies/ruvds/articles/747084/), чтобы дальше было проще создать свою хэш-функцию
-- [ ] Далее определите свой вариант **N**, чтобы выполнить задание ниже
-- [ ] Сделайте отчёт о проделанной работе
-
-Выберите ваш метод разрешения коллизий:
-- N % 4 = 0 - **Метод цепочек** 
-- N % 4 = 1 - **Открытая адресация: линейное пробирование**
-- N % 4 = 2 - **Открытая адресация: квадратичное пробирование**
-- N % 4 = 3 - **Открытая адресация: двойное хэширование**
-
-Далее вам необходимо придумать любой класс данных. Неважно, что это будет, главное, чтобы:
-1) Вы придумали его **сами**!
-2) В нём было хотя бы одно поле типа **int** и одно типа **string** (больше - на ваше усмотрение)
-
-Что-то типа такого:
-
+Создаем структуру Person:
 ```
-class myTypeOfData{
-	int year;
-	string name;
-	// other variables (if needed)
-};
-```
-Только из названия вашего типа данных, должно быть понятно, что это. То есть типа class Student с номером зачётки и именем, или class Car и т.д.
-
-Далее необходимо реализовать классическую хэш-таблицу, со следующими параметрами. У хэш-таблицы должны быть:
-
-- [ ] Метод вставки элемента
-- [ ] Метод поиска элемента
-- [ ] Метод удаления элемента
-- [ ] Метод вывода хэш-таблицы
-- [ ] Сама хэш-функция (разумеется!)
-
-Самый главный параметр оценки вашей работы - это оригинальность вашей хэш-функции, вы можете использовать разные методы:
-- Комбинирование хэшей полей
-- Полиномиальное хэширование
-- Хэширование на основе битовых операций
-- Хэширование на основе строкового представления
-
-В результате, исходя из того, как вы строите хэш-таблицу, у каждого код будет выглядеть по-своему.
-Шаблоны в итоговой сборке использовать не надо (шаблоны только в примере для абстракции), только стандартные типы данных, по итогу должен получиться файл .cpp примерно такого содержания:
-
-```
-#include <iostream>
-#include <vector>
-#include <list>
-#include <string>
-
-template <typename K, typename V>
-struct KeyValuePair {
-    K key;
-    V value;
-};
-
-template <typename K, typename V, typename Hash = std::hash<K>>
-class HashTable {
-private:
-    std::vector<std::list<KeyValuePair<K, V>>> table; // Вектор списков для хранения данных
-    size_t capacity; // Размер таблицы
-    Hash hashFunction; // Хэш-функция
-
-    // Внутренние методы
-    size_t getIndex(const K& key) const; // Получить индекс по ключу
-    void rehash(); // Рехэширование
-
+class Person {
 public:
-    // Конструкторы
-    HashTable(size_t initialCapacity = 10);
-    ~HashTable();
-
-    // Основные операции
-    void insert(const K& key, const V& value); // Вставка элемента
-    bool remove(const K& key); // Удаление элемента
-    bool find(const K& key, V& value) const; // Поиск элемента
-    void clear(); // Очистка таблицы
-
-    // Дополнительные методы
-    size_t size() const; // Количество элементов в таблице
-    bool isEmpty() const; // Проверка на пустоту
-    void print() const; // Вывод таблицы
-
-    // Итераторы (опционально)
-    class Iterator;
-    Iterator begin();
-    Iterator end();
+    std::string surname;
+    int year;
+    Person(const std::string& n = "", int y = 0) : surname(n), year(y) {} // компилятор сам создаст деструктор
 };
-
-
 ```
 
-Отчёт о проделанной работе должен содержать:
-- [ ] Скриншот из [симулятора кастомных хэш-функций](https://iswsa.acm.org/mphf/openDSAPerfectHashAnimation/perfectHashAV.html), на котором вы показали, что работали с ним и заполнили его.
-- [ ] Файл .cpp с реализацией хэш-таблицы должен лежать в репозитории
-- [ ] В readme напишите свой вариант по списку и какое задание вам досталось, расскажите алгоритм работы, обоснование выбранных методов хэширования и типов данных
-- [ ] Всегда есть поле для творческой работы, поэтому можно по желанию добавить фичи или интересные доп. функции к хэш-таблице и рассказать о них 
+Достался вариант с линейным пробированием, то есть каждый новый элемент, получившийся в результает хэширования с уже существующим хэшем, "уедет" вниз по таблице. Для корректной работы поиска будем хранить данные об удаленных ячейках, создаем enum State.
+
+Сам класс Hash_table напоминает vector и будет выглядеть так:
+```
+enum State { fr, oc, de }; //free, occupied, deletedd
+class Hash_table {
+private:
+    struct Hash_table_elem {
+        Person person; // класс Person с фамилией, годом и конструктором
+        State state; // наш enum
+        Hash_table_elem() : state(fr) {} // компилятор сам создаст деструктор
+    };
+
+    Hash_table_elem* table;
+    unsigned int cap = 0;// capacity
+    unsigned int con = 0; // congestion
+public:
+    Hash_table(unsigned int size = 41) : cap(next_prime(size)), con(0) { //инициализируем пустую хеш-таблицу с 41 свободной ячейкой
+        table = new Hash_table_elem[cap];
+    }
+
+    ~Hash_table() { // компилятор мог бы сам создать деструктор, но...
+        delete[] table;
+    }
+}
+```
+Также стоит организовать функцию insert(), а еще и resize(), которая будет переформировывать и увеличивать вместимоть нашей таблички в случае ее переполнения, поэтому следует создать дополнительные функции для нахождения простых чисел...
+
+Функции search(), remove(), print() делаем функциями-членами, также как и функцию хэширования...
+
+Хэш-функцию делаю не свою, но модифицирую [эту](https://ru.wikipedia.org/wiki/FNV):
+```
+const unsigned int prime_for_hash = 0x01000193;
+unsigned int hash_value;
+int hash(const Person& p) const { 
+	hash_value = 2166136261u;
+	hash_value ^= static_cast<unsigned int>(p.year);
+
+	for (char c : p.surname) {
+		hash_value ^= (static_cast<unsigned int>(c) * prime_for_hash);
+    		hash_value = (hash_value << 13) | (hash_value >> (32 - 13)); 
+    		hash_value += (hash_value >> 7) & (p.year | hash_value);
+	}
+	return hash_value % cap;
+}
+```
 
